@@ -15,6 +15,7 @@ namespace W8_ITE5230_Lab8_Inclass
                 cboStates.Items.Add(state);
             }
             cboStates.SelectedIndex = 0;
+            this.Text = "Add New Customer";
         }
 
         public frmAddModifyCustomer(Customer customer)
@@ -42,6 +43,8 @@ namespace W8_ITE5230_Lab8_Inclass
             txtAddress.Text = customer.Address;
             txtCity.Text = customer.City;
             txtZipCode.Text = customer.ZipCode;
+
+            this.Text = "Modify Customer";
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -77,12 +80,19 @@ namespace W8_ITE5230_Lab8_Inclass
                     MessageBox.Show($"New Customer With ID:{customerID} Added Successfully!!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
                     MessageBox.Show("Insert Failed!!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                this.Close();
             }
         }
 
         private void frmAddModifyCustomer_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

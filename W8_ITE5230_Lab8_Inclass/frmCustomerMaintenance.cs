@@ -14,23 +14,30 @@ namespace W8_ITE5230_Lab8_Inclass
 
         private void btnGetCustomer_Click(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(txtCustomerID.Text);
-            Customer? customer = CustomerDB.GetCustomer(id);
-            selectCustomer = customer;
-            if (customer != null)
+            try
             {
-                txtName.Text = customer.Name;
-                txtAddress.Text = customer.Address;
-                txtCity.Text = customer.City;
-                txtState.Text = customer.State;
-                txtZipCode.Text = customer.ZipCode;
+                int id = Convert.ToInt32(txtCustomerID.Text);
+                Customer? customer = CustomerDB.GetCustomer(id);
+                selectCustomer = customer;
+                if (customer != null)
+                {
+                    txtName.Text = customer.Name;
+                    txtAddress.Text = customer.Address;
+                    txtCity.Text = customer.City;
+                    txtState.Text = customer.State;
+                    txtZipCode.Text = customer.ZipCode;
 
-                btnModify.Enabled = true;
-                btnDelete.Enabled = true;
+                    btnModify.Enabled = true;
+                    btnDelete.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Customer Not Found", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("Customer Not Found", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please Enter CustomerId To Get Details", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -40,7 +47,8 @@ namespace W8_ITE5230_Lab8_Inclass
         {
             frmAddModifyCustomer frmAdd = new frmAddModifyCustomer();
             frmAdd.ShowDialog(this);
-
+            this.btnLoadCustomers_Click(sender, e);
+            txtCustomerID.Focus();
         }
 
         private void btnModify_Click(object sender, EventArgs e)
@@ -49,7 +57,11 @@ namespace W8_ITE5230_Lab8_Inclass
             {
                 frmAddModifyCustomer frmAdd = new frmAddModifyCustomer(selectCustomer);
                 frmAdd.ShowDialog(this);
+                this.btnLoadCustomers_Click(sender, e);
+                this.btnGetCustomer_Click(sender, e);
+                txtCustomerID.Focus();
             }
+
         }
 
         private void clearSelectedCustomer()
@@ -60,6 +72,7 @@ namespace W8_ITE5230_Lab8_Inclass
             txtCity.Text = string.Empty;
             txtState.Text = string.Empty;
             txtZipCode.Text = string.Empty;
+            txtCustomerID.Text = string.Empty;
 
             btnModify.Enabled = false;
             btnDelete.Enabled = false;
@@ -77,6 +90,7 @@ namespace W8_ITE5230_Lab8_Inclass
                     MessageBox.Show("Customer Deleted Successfully!!!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     clearSelectedCustomer();
                     this.btnLoadCustomers_Click(sender, e);
+                    txtCustomerID.Focus();
                 }
             }
         }
